@@ -47,13 +47,4 @@ public class ChunkLimiter {
         entities.forEach(player -> player.sendMessage(message));
     }
 
-    public void validate(@NotNull Block block) {
-        final Location location = block.getLocation();
-        warn(location.getChunk(), "§cTick da chunk: " + intervalTicks);
-
-        if (intervalTicks < 200) return;
-
-        block.setType(Material.AIR);
-        setIntervalTicks(0);
-    }
 }

@@ -38,6 +38,12 @@ public class ChunkLimiter {
         this.dispenserAmount -= amount;
     }
 
+    public void resetTime() {
+        this.resetAt = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(3L);
+
+        System.out.println("[Chunk-logs] X: " + chunkCoordinates.getX() + " Z: " + chunkCoordinates.getZ() + " foi resetada");
+    }
+
     public void warn(@NotNull Chunk chunk, String... message) {
         final List<Entity> entities = Arrays.stream(chunk.getEntities())
                 .filter(entity -> entity instanceof Player)

@@ -19,7 +19,11 @@ public class ChunkLimiterTask implements Runnable {
                 continue;
             }
 
-            chunkLimiter.setIntervalTicks(0);
+            if (chunkLimiter.getIntervalTicks() > 0) {
+                chunkLimiter.setIntervalTicks(0);
+            }
+
+            chunkLimiter.resetTime();
         }
     }
 }

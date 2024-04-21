@@ -8,10 +8,13 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 
 @RequiredArgsConstructor
 public class RedstoneListener implements Listener {
@@ -65,5 +68,23 @@ public class RedstoneListener implements Listener {
         block.getState().setType(Material.AIR);
         block.getState().update(true);
         chunkLimiter.setIntervalTicks(0);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void onTNTSpawn(EntitySpawnEvent event) {
+        final Entity entity = event.getEntity();
+        if (entity.getType() != EntityType.PRIMED_TNT) return;
+
+        final Location location = entity.getLocation();
+
+        final Chunk chunk = location.getChunk();
+        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+
+        //verify if this method dont cause lag
+        final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+        if (chunkLimiter.getIntervalTicks() < 170) return;
+
+        entity.remove();
+        event.setCancelled(true);
     }
 }

@@ -22,7 +22,7 @@ public class ChunkLimiter {
 
     private final ChunkCoordinates chunkCoordinates;
     private double intervalTicks = 0;
-    private double dispenserAmount;
+    private double dispenserAmount = 0;
 
     private long resetAt = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(3L);
 

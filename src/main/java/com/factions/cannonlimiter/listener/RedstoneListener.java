@@ -80,7 +80,7 @@ public class RedstoneListener implements Listener {
         final Chunk chunk = location.getChunk();
         final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
 
-        //verify if this method dont cause lag
+        //todo verify if this method dont cause lag
         final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
         if (chunkLimiter.getIntervalTicks() < 170) return;
 

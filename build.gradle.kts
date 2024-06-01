@@ -2,10 +2,9 @@ plugins {
     id("java")
 
     id("com.github.johnrengelman.shadow") version ("8.1.1")
-    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
-group = "org.example"
+group = "com.merelysnow"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -20,14 +19,13 @@ repositories {
     maven(url = "https://oss.sonatype.org/content/repositories/snapshot")
     maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven(url = "https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
     implementation("com.github.SaiintBrisson.command-framework:bukkit:1.3.1")
-    implementation("com.github.DevNatan.inventory-framework:inventory-framework:6f6a634cc5478a16ff81773ed80187dde27d6edd")
     compileOnly("org.jetbrains:annotations:23.0.0")
-
-    compileOnly(fileTree("libs"))
+    compileOnly("org.github.paperspigot:paperspigot-api:1.8.8-R0.1-SNAPSHOT")
 
     // https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
@@ -36,13 +34,25 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.32")
 }
 
+
+tasks {
+    javadoc {
+        options.encoding = "UTF-8"
+    }
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+    compileTestJava {
+        options.encoding = "UTF-8"
+    }
+}
+
+tasks.withType<Jar> {
+    destinationDirectory = File("\\\\wsl.localhost\\Ubuntu-22.04\\home\\celoz\\minecraft\\server\\plugins")
+}
+
 tasks.test {
     useJUnitPlatform()
 }
 
-bukkit {
-    name = "CannonLimiter"
-    main = "com.factions.cannonlimiter.CannonLimiterPlugin"
-    version = "1.0.0"
-    depend = listOf()
-}
+

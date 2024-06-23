@@ -1,15 +1,14 @@
-package com.factions.cannonlimiter.util;
+package com.merelysnow.cannonlimiter.models;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.bukkit.Chunk;
-import org.jetbrains.annotations.NotNull;
 
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ChunkCoordinates {
-
-    private double x, z;
+    private final double x;
+    private final double z;
+    private final String worldName;
 }

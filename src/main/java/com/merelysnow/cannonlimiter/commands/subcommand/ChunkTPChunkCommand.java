@@ -1,4 +1,4 @@
-package com.factions.cannonlimiter.command.subcommand;
+package com.merelysnow.cannonlimiter.commands.subcommand;
 
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -16,13 +16,13 @@ public class ChunkTPChunkCommand {
     public void handleCommand(Context<Player> context, int x, int z) {
         final Player player = context.getSender();
 
-        final int xmin = x * 16,
-                xmax = xmin + 15,
-                zmin = z * 16,
-                zmax = zmin + 15;
+        int xmin = x * 16;
+        int xmax = xmin + 15;
+        int zmin = z * 16;
+        int zmax = zmin + 15;
 
-        final int correctX = (xmin + xmax) /2;
-        final int correctZ = (zmin + zmax) /2;
+        final int correctX = (xmin + xmax) / 2;
+        final int correctZ = (zmin + zmax) / 2;
 
         player.teleport(new Location(player.getWorld(), correctX, 90, correctZ));
     }

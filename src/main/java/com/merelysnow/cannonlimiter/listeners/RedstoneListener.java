@@ -1,8 +1,8 @@
-package com.factions.cannonlimiter.listener;
+package com.merelysnow.cannonlimiter.listeners;
 
-import com.factions.cannonlimiter.chunk.ChunkLimiter;
-import com.factions.cannonlimiter.registry.ChunkLimiterRegistry;
-import com.factions.cannonlimiter.util.ChunkCoordinates;
+import com.merelysnow.cannonlimiter.cache.ChunkCache;
+import com.merelysnow.cannonlimiter.models.ChunkCoordinates;
+import com.merelysnow.cannonlimiter.models.ChunkLimiter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -19,7 +19,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 @RequiredArgsConstructor
 public class RedstoneListener implements Listener {
 
-    private final ChunkLimiterRegistry chunkLimiterRegistry;
+    private final ChunkCache chunkCache;
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onRedstone(BlockRedstoneEvent event) {
@@ -27,9 +27,9 @@ public class RedstoneListener implements Listener {
         final Location location = block.getLocation();
 
         final Chunk chunk = location.getChunk();
-        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
 
-        final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+        final ChunkLimiter chunkLimiter = chunkCache.getIfPresent(chunkCoordinates);
 
         final int newCurrent = event.getNewCurrent();
         if (newCurrent != 1) return;
@@ -39,8 +39,7 @@ public class RedstoneListener implements Listener {
                 chunkLimiter.increaseTicks(1);
                 break;
 
-            case DIODE:
-            case REDSTONE_COMPARATOR:
+            case REDSTONE_COMPARATOR, DIODE:
                 chunkLimiter.increaseTicks(2);
                 break;
 
@@ -55,9 +54,9 @@ public class RedstoneListener implements Listener {
         final Location location = block.getLocation();
 
         final Chunk chunk = location.getChunk();
-        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
 
-        final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+        final ChunkLimiter chunkLimiter = chunkCache.getIfPresent(chunkCoordinates);
         if (chunkLimiter.getIntervalTicks() < 170) return;
 
         chunkLimiter.warn(chunk, "§cSistema de redstone foi quebrado pois alcançou " + chunkLimiter.getIntervalTicks() + " Ticks na chunk");
@@ -78,10 +77,10 @@ public class RedstoneListener implements Listener {
         final Location location = entity.getLocation();
 
         final Chunk chunk = location.getChunk();
-        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
 
-        //todo verify if this method dont cause lag
-        final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+        //TODO verify if this method dont cause lag
+        final ChunkLimiter chunkLimiter = chunkCache.getIfPresent(chunkCoordinates);
         if (chunkLimiter.getIntervalTicks() < 170) return;
 
         entity.remove();

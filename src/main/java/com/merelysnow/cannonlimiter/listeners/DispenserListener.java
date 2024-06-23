@@ -1,8 +1,8 @@
-package com.factions.cannonlimiter.listener;
+package com.merelysnow.cannonlimiter.listeners;
 
-import com.factions.cannonlimiter.chunk.ChunkLimiter;
-import com.factions.cannonlimiter.registry.ChunkLimiterRegistry;
-import com.factions.cannonlimiter.util.ChunkCoordinates;
+import com.merelysnow.cannonlimiter.cache.ChunkCache;
+import com.merelysnow.cannonlimiter.models.ChunkCoordinates;
+import com.merelysnow.cannonlimiter.models.ChunkLimiter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -18,7 +18,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 @RequiredArgsConstructor
 public class DispenserListener implements Listener {
 
-    private final ChunkLimiterRegistry chunkLimiterRegistry;
+    private final ChunkCache chunkCache;
 
     @EventHandler
     private void onPlace(BlockPlaceEvent event) {
@@ -28,9 +28,9 @@ public class DispenserListener implements Listener {
         final Location location = block.getLocation();
 
         final Chunk chunk = location.getChunk();
-        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ(), location.getWorld().getName());
 
-        final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+        final ChunkLimiter chunkLimiter = chunkCache.getIfPresent(chunkCoordinates);
         if (chunkLimiter.getDispenserAmount() >= 90) {
             final Player player = event.getPlayer();
 
@@ -50,9 +50,9 @@ public class DispenserListener implements Listener {
         final Location location = block.getLocation();
 
         final Chunk chunk = location.getChunk();
-        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+        final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ(), location.getWorld().getName());
 
-        final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+        final ChunkLimiter chunkLimiter = chunkCache.getIfPresent(chunkCoordinates);
         chunkLimiter.decreaseDispenser(1);
     }
 
@@ -64,9 +64,9 @@ public class DispenserListener implements Listener {
             final Location location = block.getLocation();
 
             final Chunk chunk = location.getChunk();
-            final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ());
+            final ChunkCoordinates chunkCoordinates = new ChunkCoordinates(chunk.getX(), chunk.getZ(), chunk.getWorld().getName());
 
-            final ChunkLimiter chunkLimiter = chunkLimiterRegistry.getChunkLimiter(chunkCoordinates);
+            final ChunkLimiter chunkLimiter = chunkCache.getIfPresent(chunkCoordinates);
             chunkLimiter.decreaseDispenser(1);
         }
     }

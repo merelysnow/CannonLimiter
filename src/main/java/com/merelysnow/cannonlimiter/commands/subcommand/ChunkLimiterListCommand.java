@@ -1,8 +1,8 @@
-package com.factions.cannonlimiter.command.subcommand;
+package com.merelysnow.cannonlimiter.commands.subcommand;
 
-import com.factions.cannonlimiter.chunk.ChunkLimiter;
-import com.factions.cannonlimiter.registry.ChunkLimiterRegistry;
-import com.factions.cannonlimiter.util.ChunkCoordinates;
+import com.merelysnow.cannonlimiter.cache.ChunkCache;
+import com.merelysnow.cannonlimiter.models.ChunkCoordinates;
+import com.merelysnow.cannonlimiter.models.ChunkLimiter;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @RequiredArgsConstructor
 public class ChunkLimiterListCommand {
 
-    private final ChunkLimiterRegistry chunkLimiterRegistry;
+    private final ChunkCache chunkCache;
 
     @Command(
             name = "chunklimiter.list",
@@ -27,7 +27,7 @@ public class ChunkLimiterListCommand {
                 .append("\n ")
                 .append("\n ");
 
-        for (ChunkLimiter chunkLimiter : chunkLimiterRegistry.getValues()) {
+        for (ChunkLimiter chunkLimiter : chunkCache.getValues()) {
             final ChunkCoordinates chunkCoordinates = chunkLimiter.getChunkCoordinates();
 
             stringBuilder.append(String.format("§c§l[%s, %s] §fTicks: §7%s §fDispenser: §7%s",

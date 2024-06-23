@@ -1,7 +1,5 @@
-package com.factions.cannonlimiter.command;
+package com.merelysnow.cannonlimiter.commands;
 
-import com.factions.cannonlimiter.registry.ChunkLimiterRegistry;
-import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;

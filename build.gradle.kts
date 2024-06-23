@@ -35,22 +35,6 @@ dependencies {
 }
 
 
-tasks {
-    javadoc {
-        options.encoding = "UTF-8"
-    }
-    compileJava {
-        options.encoding = "UTF-8"
-    }
-    compileTestJava {
-        options.encoding = "UTF-8"
-    }
-}
-
-tasks.withType<Jar> {
-    destinationDirectory = File("\\\\wsl.localhost\\Ubuntu-22.04\\home\\celoz\\minecraft\\server\\plugins")
-}
-
 tasks.test {
     useJUnitPlatform()
 }

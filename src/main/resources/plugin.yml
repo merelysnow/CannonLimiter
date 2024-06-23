@@ -1,0 +1,3 @@
+name: CannonLimiter
+main: com.merelysnow.cannonlimiter.CannonLimiterPlugin
+version: 1.0.0
